@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QOVRI — Brand Identity System</title>
+<link rel="icon" type="image/svg+xml" href="assets/icons/favicon/favicon.svg">
+<style>
+  @font-face {
+    font-family: "Space Grotesk";
+    src: url("assets/fonts/SpaceGrotesk-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Space Grotesk";
+    src: url("assets/fonts/SpaceGrotesk-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Inter";
+    src: url("assets/fonts/Inter-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Inter";
+    src: url("assets/fonts/Inter-SemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Inter";
+    src: url("assets/fonts/Inter-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-display: swap;
+  }
+
+  :root {
+    --ink: #10131B;
+    --lime: #C9FF55;
+    --porcelain: #F5F7FC;
+    --graphite: #232835;
+    --slate: #A8B0C0;
+    --white: #FFFFFF;
+    --black: #000000;
+    --border: #e4e7ef;
+    --radius: 14px;
+    --max: 1180px;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--porcelain);
+    color: var(--ink);
+    font-family: "Inter", -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  h1, h2, h3, .brand-font {
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(245, 247, 252, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 10px; }
+  .nav-brand img { width: 26px; height: 26px; }
+  .nav-brand span { font-size: 18px; }
+  .nav-links {
+    display: flex;
+    gap: 22px;
+    list-style: none;
+    margin: 0; padding: 0;
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--graphite);
+    opacity: 0.72;
+    transition: opacity .15s ease;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+  .nav-toggle svg { width: 24px; height: 24px; }
+
+  /* ---------- Layout helpers ---------- */
+  section { padding: 92px 28px; }
+  .wrap { max-width: var(--max); margin: 0 auto; }
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--slate);
+    margin-bottom: 10px;
+  }
+  .section-head { max-width: 640px; margin-bottom: 48px; }
+  .section-head h2 { font-size: clamp(28px, 3.4vw, 38px); }
+  .section-head p { color: var(--graphite); opacity: .78; margin-top: 14px; font-size: 17px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: var(--ink);
+    color: var(--porcelain);
+    padding: 140px 28px 110px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("assets/brand-patterns/ring-motif-pattern-sheet-transparent.svg");
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-size: 900px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .hero-inner img.hero-symbol { width: 100%; }
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.02;
+  }
+  .hero .tagline {
+    margin-top: 22px;
+    font-size: 20px;
+    color: var(--lime);
+    font-weight: 600;
+  }
+  .hero p.desc {
+    margin-top: 20px;
+    max-width: 580px;
+    color: var(--slate);
+    font-size: 17px;
+  }
+  .hero .philosophy {
+    margin-top: 34px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    max-width: 680px;
+    color: #c7cedd;
+    font-size: 15.5px;
+  }
+
+  /* ---------- Cards / grids ---------- */
+  .grid {
+    display: grid;
+    gap: 22px;
+  }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card .swatch {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+  }
+  .card .swatch.dark { background: var(--ink); }
+  .card .swatch.checker {
+    background-image:
+      linear-gradient(45deg, #e9ebf2 25%, transparent 25%),
+      linear-gradient(-45deg, #e9ebf2 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #e9ebf2 75%),
+      linear-gradient(-45deg, transparent 75%, #e9ebf2 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  }
+  .card .swatch img { max-height: 100%; object-fit: contain; }
+  .card .meta {
+    padding: 14px 16px 16px;
+    border-top: 1px solid var(--border);
+  }
+  .card .meta .name { font-weight: 600; font-size: 14.5px; }
+  .card .meta .dims { font-size: 12.5px; color: var(--slate); margin-top: 3px; }
+  .card .meta a.dl {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  /* ---------- Color system ---------- */
+  .color-card {
+    border-radius: var(--radius);
+    padding: 20px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: transform .15s ease;
+  }
+  .color-card:hover { transform: translateY(-3px); }
+  .color-card .cname { font-weight: 700; font-size: 16px; }
+  .color-card .chex { font-size: 13.5px; opacity: .85; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .color-card .copied {
+    position: absolute;
+    top: 14px; right: 14px;
+    font-size: 11.5px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.18);
+    padding: 3px 9px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity .15s ease;
+  }
+  .color-card.copied-show .copied { opacity: 1; }
+
+  /* ---------- Typography ---------- */
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 24px;
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-sample { font-family: "Space Grotesk"; }
+  .type-label { font-size: 13px; color: var(--slate); min-width: 150px; font-family: "Inter"; }
+
+  /* ---------- Applications ---------- */
+  .app-card img { width: 100%; border-radius: 10px; border: 1px solid var(--border); }
+  .app-card .meta { margin-top: 10px; }
+
+  /* ---------- Code / integration ---------- */
+  pre {
+    background: var(--graphite);
+    color: #d7ddea;
+    padding: 18px 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    position: relative;
+  }
+  .code-block { position: relative; margin-top: 14px; }
+  .copy-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #d7ddea;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.16); }
+
+  .dl-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .dl-list li a {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 16px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+  .dl-list li a span.ext { color: var(--slate); font-weight: 600; font-size: 12.5px; }
+
+  .footer-cta {
+    background: var(--ink);
+    color: var(--porcelain);
+    text-align: center;
+    padding: 90px 28px;
+  }
+  .footer-cta h2 { font-size: clamp(26px, 4vw, 40px); color: var(--white); }
+  .btn-primary {
+    display: inline-block;
+    margin-top: 28px;
+    background: var(--lime);
+    color: var(--ink);
+    font-weight: 700;
+    padding: 14px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 15.5px;
+  }
+  footer.sitefoot {
+    padding: 36px 28px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--slate);
+  }
+
+  @media (max-width: 860px) {
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+    .hero-inner { grid-template-columns: 1fr; text-align: left; }
+    .hero-inner img.hero-symbol { width: 96px; }
+    .nav-links { display: none; }
+    section { padding: 64px 20px; }
+    .dl-list { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <img src="assets/logos/svg/symbol-full-color.svg" alt="QOVRI symbol">
+      <span class="brand-font">QOVRI</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#logos">Logo</a></li>
+      <li><a href="#icons">Icons</a></li>
+      <li><a href="#color">Color</a></li>
+      <li><a href="#type">Type</a></li>
+      <li><a href="#applications">Applications</a></li>
+      <li><a href="#downloads">Downloads</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ HERO / INTRO ============ -->
+<header class="hero">
+  <div class="hero-inner">
+    <img class="hero-symbol" src="assets/logos/svg/symbol-dark-bg.svg" alt="QOVRI symbol">
+    <div>
+      <h1>QOVRI</h1>
+      <div class="tagline">Engineered for What's Next</div>
+      <p class="desc">
+        QOVRI is a premium digital engineering company — web, mobile, desktop,
+        AI, and full-product design and development for entrepreneurs,
+        startups, and enterprises worldwide.
+      </p>
+      <p class="philosophy">
+        The identity is built on one idea: an open ring, completed by a
+        diagonal connector. It reads as a precise, geometric "Q" — a loop
+        left intentionally unfinished, closed instead by a line of
+        connection. Every other asset in this kit, from the favicon to the
+        business card, extends that same shape vocabulary.
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- ============ LOGO GALLERY ============ -->
+<section id="logos">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Logo system</div>
+      <h2>One mark, every context</h2>
+      <p>Symbol, wordmark, and combination lockups — in full color, on light,
+      on dark, and in pure monochrome. Click any filename to open the source
+      file directly.</p>
+    </div>
+
+    <h3 style="margin-bottom:18px;">Standalone symbol</h3>
+    <div class="grid grid-4" style="margin-bottom:56px;">
+      <div class="card">
+        <div class="swatch checker"><img src="assets/logos/svg/symbol-full-color.svg" alt="Symbol full color"></div>
+        <div class="meta"><div class="name">Full color</div><div class="dims">SVG · transparent</div><a class="dl" href="assets/logos/svg/symbol-full-color.svg" download>symbol-full-color.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/logos/svg/symbol-dark-bg.svg" alt="Symbol for dark background" style="width:70%"></div>
+        <div class="meta"><div class="name">For dark backgrounds</div><div class="dims">SVG · transparent</div><a class="dl" href="assets/logos/svg/symbol-dark-bg.svg" download>symbol-dark-bg.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch checker"><img src="assets/logos/svg/symbol-black.svg" alt="Symbol pure black"></div>
+        <div class="meta"><div class="name">Pure black</div><div class="dims">SVG · transparent</div><a class="dl" href="assets/logos/svg/symbol-black.svg" download>symbol-black.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/logos/svg/symbol-white.svg" alt="Symbol pure white" style="width:70%"></div>
+        <div class="meta"><div class="name">Pure white</div><div class="dims">SVG · transparent</div><a class="dl" href="assets/logos/svg/symbol-white.svg" download>symbol-white.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch checker"><img src="assets/logos/svg/symbol-monochrome-lime.svg" alt="Symbol monochrome lime"></div>
+        <div class="meta"><div class="name">Monochrome — Lime</div><div class="dims">SVG · transparent</div><a class="dl" href="assets/logos/svg/symbol-monochrome-lime.svg" download>symbol-monochrome-lime.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch" style="background:var(--ink)"><img src="assets/logos/svg/symbol-reversed.svg" alt="Symbol reversed" style="width:70%"></div>
+        <div class="meta"><div class="name">Reversed (square bg)</div><div class="dims">SVG · 200×200</div><a class="dl" href="assets/logos/svg/symbol-reversed.svg" download>symbol-reversed.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch" style="background:var(--lime)"><img src="assets/logos/svg/symbol-on-lime.svg" alt="Symbol on lime" style="width:70%"></div>
+        <div class="meta"><div class="name">On Electric Lime</div><div class="dims">SVG · 200×200</div><a class="dl" href="assets/logos/svg/symbol-on-lime.svg" download>symbol-on-lime.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch" style="background:var(--ink)"><img src="assets/logos/svg/symbol-reversed-rounded.svg" alt="Symbol reversed rounded" style="width:70%"></div>
+        <div class="meta"><div class="name">Reversed (rounded)</div><div class="dims">SVG · app-icon ready</div><a class="dl" href="assets/logos/svg/symbol-reversed-rounded.svg" download>symbol-reversed-rounded.svg</a></div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:18px;">Wordmark</h3>
+    <div class="grid grid-4" style="margin-bottom:56px;">
+      <div class="card">
+        <div class="swatch checker"><img src="assets/logos/svg/wordmark-ink.svg" alt="Wordmark ink"></div>
+        <div class="meta"><div class="name">Ink</div><div class="dims">SVG · paths, no font dependency</div><a class="dl" href="assets/logos/svg/wordmark-ink.svg" download>wordmark-ink.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/logos/svg/wordmark-white.svg" alt="Wordmark white"></div>
+        <div class="meta"><div class="name">White</div><div class="dims">SVG · paths</div><a class="dl" href="assets/logos/svg/wordmark-white.svg" download>wordmark-white.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch checker"><img src="assets/logos/svg/wordmark-black.svg" alt="Wordmark black"></div>
+        <div class="meta"><div class="name">Black</div><div class="dims">SVG · paths</div><a class="dl" href="assets/logos/svg/wordmark-black.svg" download>wordmark-black.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/logos/svg/wordmark-lime.svg" alt="Wordmark lime"></div>
+        <div class="meta"><div class="name">Lime</div><div class="dims">SVG · paths</div><a class="dl" href="assets/logos/svg/wordmark-lime.svg" download>wordmark-lime.svg</a></div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:18px;">Combination lockups</h3>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="swatch checker"><img src="assets/logos/svg/lockup-horizontal-color.svg" alt="Horizontal lockup color"></div>
+        <div class="meta"><div class="name">Horizontal — full color</div><div class="dims">SVG</div><a class="dl" href="assets/logos/svg/lockup-horizontal-color.svg" download>lockup-horizontal-color.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/logos/svg/lockup-horizontal-dark-bg.svg" alt="Horizontal lockup dark"></div>
+        <div class="meta"><div class="name">Horizontal — dark bg</div><div class="dims">SVG</div><a class="dl" href="assets/logos/svg/lockup-horizontal-dark-bg.svg" download>lockup-horizontal-dark-bg.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch checker"><img src="assets/logos/svg/lockup-horizontal-tagline.svg" alt="Horizontal lockup tagline"></div>
+        <div class="meta"><div class="name">Horizontal — with tagline</div><div class="dims">SVG</div><a class="dl" href="assets/logos/svg/lockup-horizontal-tagline.svg" download>lockup-horizontal-tagline.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch checker"><img src="assets/logos/svg/lockup-stacked-color.svg" alt="Stacked lockup color" style="width:55%"></div>
+        <div class="meta"><div class="name">Stacked — full color</div><div class="dims">SVG</div><a class="dl" href="assets/logos/svg/lockup-stacked-color.svg" download>lockup-stacked-color.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/logos/svg/lockup-stacked-dark-bg.svg" alt="Stacked lockup dark" style="width:55%"></div>
+        <div class="meta"><div class="name">Stacked — dark bg</div><div class="dims">SVG</div><a class="dl" href="assets/logos/svg/lockup-stacked-dark-bg.svg" download>lockup-stacked-dark-bg.svg</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch checker"><img src="assets/logos/svg/lockup-stacked-tagline.svg" alt="Stacked lockup tagline" style="width:55%"></div>
+        <div class="meta"><div class="name">Stacked — with tagline</div><div class="dims">SVG</div><a class="dl" href="assets/logos/svg/lockup-stacked-tagline.svg" download>lockup-stacked-tagline.svg</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ICON GALLERY ============ -->
+<section id="icons" style="background:var(--white); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Icon system</div>
+      <h2>Favicon to app icon</h2>
+      <p>Every platform's required format, generated from the same symbol
+      master — including a bolder, favicon-optimized cut for sizes where
+      the standard weight thins out.</p>
+    </div>
+    <div class="grid grid-4">
+      <div class="card">
+        <div class="swatch dark"><img src="assets/icons/favicon/favicon-32x32.png" alt="favicon 32" style="image-rendering:pixelated; width:64px; height:64px;"></div>
+        <div class="meta"><div class="name">Favicon (16 / 32 / 48)</div><div class="dims">ICO + PNG + SVG</div><a class="dl" href="assets/icons/favicon/favicon.ico" download>favicon.ico</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/icons/web/icon-192.png" alt="web icon 192" style="width:120px"></div>
+        <div class="meta"><div class="name">Web icon</div><div class="dims">192 &amp; 512 PNG</div><a class="dl" href="assets/icons/web/icon-512.png" download>icon-512.png</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/icons/pwa/maskable-192.png" alt="PWA maskable" style="width:120px; border-radius:50%;"></div>
+        <div class="meta"><div class="name">PWA — maskable</div><div class="dims">Safe-zone verified</div><a class="dl" href="assets/icons/pwa/maskable-512.png" download>maskable-512.png</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch checker"><img src="assets/icons/pwa/standard-192.png" alt="PWA standard" style="width:120px"></div>
+        <div class="meta"><div class="name">PWA — standard</div><div class="dims">192 &amp; 512 PNG</div><a class="dl" href="assets/icons/pwa/standard-512.png" download>standard-512.png</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/icons/ios/AppIcon-1024.png" alt="iOS app icon" style="width:120px; border-radius:22%;"></div>
+        <div class="meta"><div class="name">iOS App Icon</div><div class="dims">1024×1024 + Xcode catalog</div><a class="dl" href="assets/icons/ios/AppIcon-1024.png" download>AppIcon-1024.png</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch checker"><img src="assets/icons/android/drawable-xxxhdpi/ic_launcher_foreground.png" alt="Android foreground" style="width:120px;"></div>
+        <div class="meta"><div class="name">Android adaptive</div><div class="dims">Foreground / background / mono</div><a class="dl" href="assets/icons/android/drawable-xxxhdpi/ic_launcher_foreground.png" download>ic_launcher_foreground.png</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/icons/desktop/linux/256x256/qovri.png" alt="desktop icon" style="width:120px; border-radius:22%;"></div>
+        <div class="meta"><div class="name">Desktop (Win / Linux)</div><div class="dims">.ico + hicolor PNGs</div><a class="dl" href="assets/icons/desktop/qovri.ico" download>qovri.ico</a></div>
+      </div>
+      <div class="card">
+        <div class="swatch dark"><img src="assets/icons/desktop/qovri.iconset/icon_256x256@2x.png" alt="macOS iconset" style="width:120px; border-radius:22%;"></div>
+        <div class="meta"><div class="name">macOS (.iconset source)</div><div class="dims">Compile with iconutil</div><a class="dl" href="assets/icons/desktop/qovri.iconset/icon_512x512@2x.png" download>icon_512x512@2x.png</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COLOR SYSTEM ============ -->
+<section id="color">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Color system</div>
+      <h2>Three primaries, two neutrals</h2>
+      <p>Click any swatch to copy its hex value. The full palette has been
+      verified in pure black-and-white reproduction — color is an accent,
+      never a crutch.</p>
+    </div>
+    <div class="grid grid-3" id="color-grid">
+      <div class="color-card" style="background:#10131B; color:#F5F7FC;" data-hex="#10131B">
+        <div class="cname">Midnight Ink</div><div class="chex">#10131B</div>
+        <div class="copied">Copied</div>
+      </div>
+      <div class="color-card" style="background:#C9FF55; color:#10131B;" data-hex="#C9FF55">
+        <div class="cname">Electric Lime</div><div class="chex">#C9FF55</div>
+        <div class="copied">Copied</div>
+      </div>
+      <div class="color-card" style="background:#F5F7FC; color:#10131B; border:1px solid var(--border);" data-hex="#F5F7FC">
+        <div class="cname">Porcelain</div><div class="chex">#F5F7FC</div>
+        <div class="copied">Copied</div>
+      </div>
+      <div class="color-card" style="background:#232835; color:#F5F7FC;" data-hex="#232835">
+        <div class="cname">Graphite</div><div class="chex">#232835</div>
+        <div class="copied">Copied</div>
+      </div>
+      <div class="color-card" style="background:#A8B0C0; color:#10131B;" data-hex="#A8B0C0">
+        <div class="cname">Muted Slate</div><div class="chex">#A8B0C0</div>
+        <div class="copied">Copied</div>
+      </div>
+      <div class="color-card" style="background:#FFFFFF; color:#10131B; border:1px solid var(--border);" data-hex="#FFFFFF">
+        <div class="cname">Pure White</div><div class="chex">#FFFFFF</div>
+        <div class="copied">Copied</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TYPOGRAPHY ============ -->
+<section id="type" style="background:var(--white); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Typography</div>
+      <h2>Space Grotesk &amp; Inter</h2>
+      <p>Space Grotesk carries the logo and headlines; Inter handles body copy
+      and UI at every weight. Both are open-source (SIL OFL 1.1) and shipped
+      as real font files in <code>assets/fonts/</code>.</p>
+    </div>
+
+    <div class="type-row">
+      <div class="type-label">Space Grotesk Bold<br>Headlines</div>
+      <div class="type-sample" style="font-weight:700; font-size:44px;">Engineered for what's next</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label">Space Grotesk Medium<br>Subheads</div>
+      <div class="type-sample" style="font-weight:500; font-size:28px;">Digital engineering, done precisely</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label">Inter SemiBold<br>UI / emphasis</div>
+      <div style="font-family:'Inter'; font-weight:600; font-size:18px;">Build your next product with QOVRI.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label">Inter Regular<br>Body copy</div>
+      <div style="font-family:'Inter'; font-weight:400; font-size:16px; max-width:560px;">QOVRI transforms ambitious ideas into elegant, reliable, and scalable digital products — from first prototype to global launch.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPLICATIONS ============ -->
+<section id="applications">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Brand applications</div>
+      <h2>In the wild</h2>
+      <p>How the system holds up across the everyday surfaces a brand
+      actually lives on.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="app-card">
+        <img src="assets/social/og-preview-1200x630.png" alt="Open Graph preview">
+        <div class="meta"><div class="name" style="font-weight:600;">Open Graph / link preview</div></div>
+      </div>
+      <div class="app-card">
+        <img src="assets/social/linkedin-cover-1128x191.png" alt="LinkedIn cover">
+        <div class="meta"><div class="name" style="font-weight:600;">LinkedIn cover</div></div>
+      </div>
+      <div class="app-card">
+        <img src="assets/social/business-card-front-1050x600.png" alt="Business card">
+        <div class="meta"><div class="name" style="font-weight:600;">Business card</div></div>
+      </div>
+      <div class="app-card">
+        <img src="assets/social/avatar-square-800.png" alt="Social avatar">
+        <div class="meta"><div class="name" style="font-weight:600;">Social avatar</div></div>
+      </div>
+      <div class="app-card">
+        <img src="assets/social/document-header-logo.png" alt="Document header" style="background:#fff; padding:20px;">
+        <div class="meta"><div class="name" style="font-weight:600;">Document header</div></div>
+      </div>
+      <div class="app-card">
+        <img src="assets/backgrounds/presentation-background-1920x1080.png" alt="Presentation background">
+        <div class="meta"><div class="name" style="font-weight:600;">Presentation background</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOWNLOADS / INTEGRATION ============ -->
+<section id="downloads" style="background:var(--white); border-top:1px solid var(--border);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Download &amp; integration</div>
+      <h2>Everything, ready to use</h2>
+      <p>Grab the whole kit as a ZIP, or jump straight to the file you need.
+      Copy the favicon snippet below directly into your site's
+      <code>&lt;head&gt;</code>.</p>
+    </div>
+
+    <a href="QOVRI-Brand-Kit.zip" download class="btn-primary" style="background:var(--ink); color:var(--porcelain); margin-bottom:40px; display:inline-block;">Download complete brand kit (.zip)</a>
+
+    <h3 style="margin:36px 0 14px;">Favicon installation</h3>
+    <div class="code-block">
+      <button class="copy-btn" data-copy-target="snippet-favicon">Copy</button>
+      <pre id="snippet-favicon">&lt;link rel="icon" type="image/svg+xml" href="/favicon.svg"&gt;
+&lt;link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"&gt;
+&lt;link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"&gt;
+&lt;link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"&gt;
+&lt;link rel="manifest" href="/site.webmanifest"&gt;
+&lt;meta name="theme-color" content="#10131B"&gt;</pre>
+    </div>
+
+    <h3 style="margin:36px 0 14px;">Key files</h3>
+    <ul class="dl-list">
+      <li><a href="README.md" download>README.md <span class="ext">MD</span></a></li>
+      <li><a href="BRAND-GUIDELINES.md" download>Brand Guidelines <span class="ext">MD</span></a></li>
+      <li><a href="LICENSES.md" download>Licenses <span class="ext">MD</span></a></li>
+      <li><a href="CHANGELOG.md" download>Changelog <span class="ext">MD</span></a></li>
+      <li><a href="assets/logos/svg/symbol-full-color.svg" download>Primary symbol <span class="ext">SVG</span></a></li>
+      <li><a href="assets/logos/svg/lockup-horizontal-color.svg" download>Primary lockup <span class="ext">SVG</span></a></li>
+      <li><a href="assets/logos/pdf/lockup-horizontal-color.pdf" download>Lockup for print <span class="ext">PDF</span></a></li>
+      <li><a href="assets/icons/favicon/favicon.ico" download>Favicon package <span class="ext">ICO</span></a></li>
+    </ul>
+
+    <h3 style="margin:48px 0 14px;">Available formats</h3>
+    <p style="color:var(--graphite); opacity:.8; max-width:640px;">SVG (vector, web) · PNG (raster, transparent, 256–2048px) · PDF (vector,
+    print/sharing) · ICO (Windows &amp; favicon, multi-size) · iOS Xcode asset
+    catalog · Android adaptive-icon resources · macOS .iconset source ·
+    WOFF2 / TTF (fonts).</p>
+  </div>
+</section>
+
+<div class="footer-cta">
+  <h2>Engineered for what's next.</h2>
+  <a class="btn-primary" href="BRAND-GUIDELINES.md">Read the full brand guidelines</a>
+</div>
+
+<footer class="sitefoot">
+  QOVRI Brand Kit v1.0 · Fonts licensed under SIL OFL 1.1 · "QOVRI" is a
+  proposed, unregistered brand name — see LICENSES.md
+</footer>
+
+<script>
+  // Copy color hex on click
+  document.querySelectorAll('.color-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var hex = card.getAttribute('data-hex');
+      navigator.clipboard && navigator.clipboard.writeText(hex).catch(function(){});
+      card.classList.add('copied-show');
+      setTimeout(function () { card.classList.remove('copied-show'); }, 1200);
+    });
+  });
+
+  // Copy code snippets
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var targetId = btn.getAttribute('data-copy-target');
+      var el = document.getElementById(targetId);
+      if (!el) return;
+      var text = el.innerText;
+      navigator.clipboard && navigator.clipboard.writeText(text).catch(function(){});
+      var original = btn.textContent;
+      btn.textContent = 'Copied';
+      setTimeout(function () { btn.textContent = original; }, 1200);
+    });
+  });
+</script>
+
+</body>
+</html>
